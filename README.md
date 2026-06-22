@@ -1,20 +1,39 @@
-# Logging & Monitoring Platform
+# 📊 Plataforma de Observabilidade e Monitoramento
 
-This project simulates a production-grade observability system used in large-scale applications.
+Sistema de observabilidade backend inspirado em arquiteturas de produção utilizadas em sistemas distribuídos de larga escala.
 
-## 🧠 Goal
-Centralize logs, metrics, and monitoring for backend systems.
+Este projeto simula uma plataforma centralizada para:
 
-## 🏗️ Components
-- API Services
-- Log Pipeline
-- Metrics Collection
-- Dashboard Visualization
+- Logs estruturados
+- Métricas de sistemas
+- Monitoramento em tempo real
+- Visualização de dados operacionais
 
-## 📌 Stack (Conceptual)
-- Elasticsearch (logs storage)
-- Logstash (data pipeline)
-- Kibana (visualization)
-OR
-- Prometheus (metrics)
-- Grafana (dashboard)
+---
+
+# 🧠 Objetivo
+
+Fornecer uma estrutura conceitual de observabilidade para sistemas backend, permitindo:
+
+- Centralização de logs
+- Coleta de métricas
+- Monitoramento de performance
+- Visualização de dados operacionais
+
+---
+
+# 🏗️ Arquitetura do Sistema
+
+```text id="arch-observability"
+APIs de Sistemas
+        │
+        ▼
+Pipeline de Logs / Métricas
+        │
+ ┌───────────────┬───────────────┐
+ ▼               ▼               ▼
+Logs         Métricas        Eventos
+Pipeline     Collector       Stream
+        │
+        ▼
+Sistema de Armazenamento e Visualização
