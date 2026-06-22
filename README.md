@@ -1,5 +1,7 @@
 # 📊 Plataforma de Observabilidade e Monitoramento
 
+https://benjaminreiis.github.io/monitoring-platform-/
+
 Sistema de observabilidade backend inspirado em arquiteturas de produção utilizadas em sistemas distribuídos de larga escala.
 
 Este projeto simula uma plataforma centralizada para:
