@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Pulsegrid — Plataforma de Observabilidade</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════════════
+   PULSEGRID — style.css
+   Design system: "Instrumentation Amber"
+   ═══════════════════════════════════════════════════ */
+
+:root {
+  --bg:         #0a0c10;
+  --bg-soft:    #0d1015;
+  --panel:      #12161d;
+  --panel-2:    #161b24;
+  --line:       rgba(255,180,84,.12);
+  --line-soft:  rgba(255,255,255,.06);
+  --amber:      #ffb454;
+  --amber-dim:  #c98a3a;
+  --teal:       #5eead4;
+  --rose:       #fb7185;
+  --blue:       #7aa2f7;
+  --text:       #e6e9ef;
+  --text-dim:   #8b93a7;
+  --text-faint: #555d6e;
+
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Inter', sans-serif;
+
+  --radius: 12px;
+  --radius-sm: 8px;
+  --ease: cubic-bezier(.16,1,.3,1);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;border:none;background:none;cursor:pointer}
+input{font-family:inherit}
+.container{max-width:1240px;margin:0 auto;padding:0 1.6rem}
+.hidden{display:none!important}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);
+  font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:.8rem;
+}
+.eyebrow::before{content:'';width:6px;height:6px;background:var(--amber);box-shadow:0 0 8px var(--amber)}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.7rem 1.4rem;border-radius:var(--radius-sm);font-weight:600;font-size:.86rem;transition:all .2s var(--ease)}
+.btn--primary{background:var(--amber);color:#1a1206}
+.btn--primary:hover{background:#ffc679;transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,180,84,.25)}
+.btn--ghost{background:transparent;color:var(--text);border:1.5px solid var(--line-soft)}
+.btn--ghost:hover{border-color:var(--amber);color:var(--amber)}
+
+/* ── STATUS DOTS ── */
+.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:.3rem}
+.status-dot--ok{background:var(--teal);box-shadow:0 0 6px var(--teal)}
+.status-dot--warn{background:var(--amber);box-shadow:0 0 6px var(--amber)}
+.status-dot--crit{background:var(--rose);box-shadow:0 0 6px var(--rose)}
+
+/* ═══ NAV ═══ */
+.nav{position:sticky;top:0;z-index:100;background:rgba(10,12,16,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--line-soft)}
+.nav__inner{max-width:1240px;margin:0 auto;padding:.95rem 1.6rem;display:flex;align-items:center;gap:2.5rem}
+.nav__logo{font-family:var(--mono);font-weight:700;font-size:1.05rem;display:flex;align-items:center;gap:.6rem}
+.nav__pulse{width:9px;height:9px;border-radius:50%;background:var(--amber);box-shadow:0 0 10px var(--amber);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+.nav__links{display:flex;gap:1.8rem;margin-left:auto}
+.nav__links a{font-size:.85rem;color:var(--text-dim);transition:color .2s}
+.nav__links a:hover{color:var(--amber)}
+.nav__status{font-family:var(--mono);font-size:.76rem;color:var(--text-dim);display:flex;align-items:center}
+
+/* ═══ HERO ═══ */
+.hero{padding:4.5rem 0 3.5rem;background:radial-gradient(ellipse 900px 500px at 10% -10%, rgba(255,180,84,.07), transparent 60%)}
+.hero__inner{max-width:1240px;margin:0 auto;padding:0 1.6rem;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+.hero__title{font-family:var(--sans);font-weight:800;font-size:clamp(2.2rem,4.4vw,3.4rem);line-height:1.12;letter-spacing:-.02em;margin-bottom:1.2rem}
+.hero__title .hl{color:var(--amber)}
+.hero__sub{font-size:1.02rem;color:var(--text-dim);max-width:440px;margin-bottom:1.8rem;line-height:1.7}
+.hero__actions{display:flex;gap:.8rem;flex-wrap:wrap}
+
+.terminal{background:#08090c;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:0 30px 70px -20px rgba(0,0,0,.7)}
+.terminal__head{display:flex;align-items:center;gap:.45rem;padding:.7rem 1rem;border-bottom:1px solid var(--line-soft);background:rgba(255,255,255,.015)}
+.t-dot{width:9px;height:9px;border-radius:50%;background:var(--text-faint);opacity:.4}
+.t-dot:nth-child(2){background:var(--amber);opacity:.6}
+.t-dot:nth-child(3){background:var(--teal);opacity:.7}
+.terminal__title{font-family:var(--mono);font-size:.72rem;color:var(--text-faint);margin-left:.5rem}
+.terminal__body{padding:1rem 1.1rem;height:280px;overflow:hidden;font-family:var(--mono);font-size:.78rem;display:flex;flex-direction:column;gap:.35rem}
+
+.tlog{display:flex;gap:.6rem;animation:logIn .3s ease both;white-space:nowrap;overflow:hidden}
+@keyframes logIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.tlog__time{color:var(--text-faint);flex-shrink:0}
+.tlog__level{flex-shrink:0;font-weight:700;width:48px}
+.tlog__level--INFO{color:var(--blue)}
+.tlog__level--WARN{color:var(--amber)}
+.tlog__level--ERROR{color:var(--rose)}
+.tlog__svc{color:var(--teal);flex-shrink:0}
+.tlog__msg{color:var(--text-dim);overflow:hidden;text-overflow:ellipsis}
+
+/* ═══ STATUS STRIP ═══ */
+.status-strip{border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);background:var(--bg-soft);padding:.9rem 0}
+.status-strip__inner{display:flex;gap:2rem;overflow-x:auto;font-family:var(--mono);font-size:.78rem}
+.status-pill{display:flex;align-items:center;gap:.5rem;white-space:nowrap;color:var(--text-dim)}
+.status-pill strong{color:var(--text);font-weight:600}
+
+/* ═══ SECTIONS ═══ */
+.section{padding:4.5rem 0}
+.section--dark{background:var(--bg-soft)}
+.section__head{margin-bottom:2.2rem}
+.section__title{font-family:var(--sans);font-weight:700;font-size:clamp(1.6rem,2.8vw,2.1rem);letter-spacing:-.01em}
+
+/* ═══ KPI ROW ═══ */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);border-radius:var(--radius);overflow:hidden;margin-bottom:2rem}
+.kpi-card{background:var(--bg);padding:1.4rem 1.5rem}
+.kpi-card__value{font-family:var(--mono);font-weight:700;font-size:1.9rem;color:var(--amber);line-height:1;margin-bottom:.4rem}
+.kpi-card__label{font-size:.82rem;color:var(--text-dim)}
+.kpi-card__delta{font-family:var(--mono);font-size:.72rem;margin-top:.4rem}
+.kpi-card__delta--up{color:var(--teal)}
+.kpi-card__delta--down{color:var(--rose)}
+
+/* ═══ PANELS / DASHBOARD GRID ═══ */
+.dash-grid{display:grid;grid-template-columns:2fr 1fr;gap:1.2rem;margin-bottom:1.2rem}
+.dash-grid--three{grid-template-columns:repeat(3,1fr)}
+.panel{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--radius);padding:1.4rem}
+.panel--wide{grid-column:span 1}
+.panel__head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1.1rem}
+.panel__head h3{font-size:.92rem;font-weight:600;color:var(--text)}
+.panel__sub{font-family:var(--mono);font-size:.7rem;color:var(--text-faint)}
+
+/* Service map */
+.service-map{display:flex;flex-direction:column;gap:.6rem}
+.svc-node{display:flex;align-items:center;gap:.7rem;padding:.6rem .8rem;background:var(--panel-2);border-radius:var(--radius-sm);border:1px solid var(--line-soft);transition:border-color .3s}
+.svc-node__pulse{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.svc-node__name{font-size:.83rem;font-weight:500;flex:1}
+.svc-node__rps{font-family:var(--mono);font-size:.74rem;color:var(--text-faint);transition:color .2s}
+
+.chart-legend-row{display:flex;gap:1.2rem;margin-top:.8rem;font-family:var(--mono);font-size:.72rem;color:var(--text-dim)}
+.chart-legend-item{display:flex;align-items:center;gap:.4rem}
+.legend-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+
+/* ═══ LOG CONSOLE ═══ */
+.log-toolbar{display:flex;gap:1rem;margin-bottom:1.2rem;flex-wrap:wrap;align-items:center}
+.log-filters{display:flex;gap:.5rem;flex-wrap:wrap}
+.log-filter-chip{
+  font-family:var(--mono);font-size:.74rem;padding:.4rem .9rem;border-radius:50px;
+  border:1px solid var(--line-soft);color:var(--text-dim);transition:all .2s;
+}
+.log-filter-chip.active{border-color:var(--amber);color:var(--amber);background:rgba(255,180,84,.08)}
+.log-search{flex:1;min-width:240px}
+.log-search input{
+  width:100%;background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--radius-sm);
+  padding:.55rem 1rem;color:var(--text);font-family:var(--mono);font-size:.82rem;outline:none;transition:border-color .2s;
+}
+.log-search input:focus{border-color:var(--amber)}
+
+.log-console{background:#08090c;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.log-console__body{height:420px;overflow-y:auto;padding:.8rem 0;font-family:var(--mono);font-size:.78rem}
+.log-console__body::-webkit-scrollbar{width:6px}
+.log-console__body::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
+
+.log-row{display:grid;grid-template-columns:90px 60px 110px 1fr;gap:.8rem;padding:.4rem 1.1rem;cursor:pointer;border-left:3px solid transparent;transition:background .15s}
+.log-row:hover{background:rgba(255,255,255,.025);border-left-color:var(--amber)}
+.log-row__time{color:var(--text-faint)}
+.log-row__level{font-weight:700}
+.log-row__level--INFO{color:var(--blue)}
+.log-row__level--WARN{color:var(--amber)}
+.log-row__level--ERROR{color:var(--rose)}
+.log-row__svc{color:var(--teal)}
+.log-row__msg{color:var(--text-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.log-hint{font-family:var(--mono);font-size:.72rem;color:var(--text-faint);margin-top:.8rem}
+
+/* ═══ SERVICE TABS ═══ */
+.service-tabs{display:flex;gap:.6rem;margin-bottom:2rem;flex-wrap:wrap}
+.svc-tab{
+  display:flex;align-items:center;gap:.5rem;padding:.55rem 1.1rem;border-radius:50px;
+  border:1px solid var(--line-soft);font-size:.83rem;color:var(--text-dim);transition:all .2s;
+}
+.svc-tab.active{border-color:var(--amber);color:var(--amber);background:rgba(255,180,84,.08)}
+
+.metric-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:2rem}
+
+/* ═══ ALERTS ═══ */
+.alert-list{display:flex;flex-direction:column;gap:.7rem}
+.alert-row{display:flex;align-items:center;gap:.9rem;padding:.9rem 1.1rem;background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--radius-sm);border-left:3px solid var(--text-faint)}
+.alert-row--warn{border-left-color:var(--amber)}
+.alert-row--crit{border-left-color:var(--rose)}
+.alert-row__icon{font-size:1.1rem}
+.alert-row__body{flex:1}
+.alert-row__title{font-size:.85rem;font-weight:600;margin-bottom:.15rem}
+.alert-row__meta{font-family:var(--mono);font-size:.7rem;color:var(--text-faint)}
+
+/* ═══ PIPELINE DIAGRAM ═══ */
+.pipeline-diagram{margin-bottom:3rem}
+.arch-flow{display:flex;flex-direction:column;align-items:center;gap:0}
+.arch-node{
+  background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--radius-sm);
+  padding:1rem 1.6rem;display:flex;align-items:center;gap:.9rem;width:100%;max-width:520px;
+  transition:border-color .25s;
+}
+.arch-node:hover{border-color:var(--amber)}
+.arch-node__icon{font-size:1.3rem}
+.arch-node__layer{font-weight:600;font-size:.88rem;min-width:130px}
+.arch-node__desc{font-size:.78rem;color:var(--text-dim);font-family:var(--mono)}
+.arch-arrow{color:var(--text-faint);font-size:1rem;padding:.25rem 0}
+
+.tech-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);border-radius:var(--radius);overflow:hidden}
+.tech-item{background:var(--bg-soft);padding:1.2rem;display:flex;flex-direction:column;gap:.35rem}
+.tech-item__layer{font-family:var(--mono);font-size:.66rem;color:var(--text-faint);letter-spacing:.05em;text-transform:uppercase}
+.tech-item__name{font-size:.88rem;font-weight:600}
+
+/* ═══ MODAL ═══ */
+.modal{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem}
+.modal__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px)}
+.modal__box{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);max-width:560px;width:100%;max-height:80vh;overflow-y:auto;padding:1.8rem}
+.modal__close{position:absolute;top:1rem;right:1rem;width:32px;height:32px;border-radius:50%;background:var(--panel-2);color:var(--text-dim);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.modal__close:hover{color:var(--amber)}
+.modal__title{font-size:1rem;font-weight:600;margin-bottom:1rem}
+.modal__json{font-family:var(--mono);font-size:.78rem;color:var(--teal);background:#08090c;padding:1rem;border-radius:var(--radius-sm);overflow-x:auto;line-height:1.7}
+
+/* ═══ FOOTER ═══ */
+.footer{padding:2.2rem 0;border-top:1px solid var(--line-soft);text-align:center}
+.footer__logo{font-family:var(--mono);font-weight:700;display:flex;align-items:center;justify-content:center;gap:.5rem;margin-bottom:.6rem;color:var(--amber)}
+.footer__note{font-size:.8rem;color:var(--text-dim);margin-bottom:.3rem}
+.footer__copy{font-size:.74rem;color:var(--text-faint)}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:900px){
+  .nav__links,.nav__status{display:none}
+  .hero__inner{grid-template-columns:1fr}
+  .kpi-row{grid-template-columns:repeat(2,1fr)}
+  .dash-grid,.dash-grid--three{grid-template-columns:1fr}
+  .metric-detail-grid{grid-template-columns:1fr}
+  .tech-grid{grid-template-columns:repeat(2,1fr)}
+  .log-row{grid-template-columns:70px 50px 1fr;}
+  .log-row__svc{display:none}
+}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ NAV ═══════════════ -->
+<header class="nav">
+  <div class="nav__inner">
+    <div class="nav__logo">
+      <span class="nav__pulse"></span> Pulsegrid
+    </div>
+    <nav class="nav__links">
+      <a href="#dashboard">Dashboard</a>
+      <a href="#logs">Logs</a>
+      <a href="#metrics">Métricas</a>
+      <a href="#architecture">Arquitetura</a>
+    </nav>
+    <div class="nav__status">
+      <span class="status-dot status-dot--ok"></span> Todos os sistemas operacionais
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+  <div class="hero__inner">
+    <div class="hero__copy">
+      <span class="eyebrow">Demonstração · dados simulados</span>
+      <h1 class="hero__title">Veja o que seus<br/>sistemas estão<br/><span class="hl">realmente</span> fazendo.</h1>
+      <p class="hero__sub">Logs centralizados, métricas em tempo real e mapa de serviços — tudo num só painel, do jeito que um time de operações precisa olhar para um incidente.</p>
+      <div class="hero__actions">
+        <button class="btn btn--primary" id="hero-cta">Abrir Dashboard</button>
+        <button class="btn btn--ghost" id="hero-cta-2">Ver Logs ao Vivo</button>
+      </div>
+    </div>
+    <div class="hero__visual">
+      <div class="terminal">
+        <div class="terminal__head">
+          <span class="t-dot"></span><span class="t-dot"></span><span class="t-dot"></span>
+          <span class="terminal__title">tail -f /var/log/pulsegrid/stream</span>
+        </div>
+        <div class="terminal__body" id="hero-log-stream"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ STATUS STRIP ═══════════════ -->
+<section class="status-strip">
+  <div class="container status-strip__inner" id="status-strip-content"></div>
+</section>
+
+<!-- ═══════════════ DASHBOARD ═══════════════ -->
+<section class="section" id="dashboard">
+  <div class="container">
+    <div class="section__head">
+      <span class="eyebrow">Visão geral</span>
+      <h2 class="section__title">Painel operacional</h2>
+    </div>
+
+    <div class="kpi-row" id="kpi-row"></div>
+
+    <div class="dash-grid">
+      <div class="panel panel--wide">
+        <div class="panel__head">
+          <h3>Requisições por minuto</h3>
+          <span class="panel__sub">últimos 60 min</span>
+        </div>
+        <div id="rpm-chart"></div>
+      </div>
+      <div class="panel">
+        <div class="panel__head">
+          <h3>Mapa de serviços</h3>
+          <span class="panel__sub">tráfego em tempo real</span>
+        </div>
+        <div id="service-map"></div>
+      </div>
+    </div>
+
+    <div class="dash-grid dash-grid--three">
+      <div class="panel">
+        <div class="panel__head"><h3>Latência (p50 / p95 / p99)</h3></div>
+        <div id="latency-chart"></div>
+      </div>
+      <div class="panel">
+        <div class="panel__head"><h3>Taxa de erro</h3></div>
+        <div id="error-chart"></div>
+      </div>
+      <div class="panel">
+        <div class="panel__head"><h3>Uso de CPU / Memória</h3></div>
+        <div id="resource-chart"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ LOGS ═══════════════ -->
+<section class="section section--dark" id="logs">
+  <div class="container">
+    <div class="section__head">
+      <span class="eyebrow">Logs estruturados</span>
+      <h2 class="section__title">Stream centralizado, em tempo real</h2>
+    </div>
+
+    <div class="log-toolbar">
+      <div class="log-filters" id="log-filters"></div>
+      <div class="log-search">
+        <input type="text" id="log-search-input" placeholder="Buscar nos logs (serviço, mensagem, trace id)..."/>
+      </div>
+    </div>
+
+    <div class="log-console" id="log-console">
+      <div class="log-console__body" id="log-console-body"></div>
+    </div>
+    <p class="log-hint">Clique em uma linha de log para ver os detalhes estruturados (JSON).</p>
+  </div>
+</section>
+
+<!-- ═══════════════ METRICS DETAIL ═══════════════ -->
+<section class="section" id="metrics">
+  <div class="container">
+    <div class="section__head">
+      <span class="eyebrow">Métricas de sistema</span>
+      <h2 class="section__title">Séries temporais, por serviço</h2>
+    </div>
+
+    <div class="service-tabs" id="service-tabs"></div>
+
+    <div class="metric-detail-grid">
+      <div class="panel">
+        <div class="panel__head"><h3>Throughput</h3></div>
+        <div id="detail-throughput"></div>
+      </div>
+      <div class="panel">
+        <div class="panel__head"><h3>Latência média</h3></div>
+        <div id="detail-latency"></div>
+      </div>
+    </div>
+
+    <div class="alert-list" id="alert-list"></div>
+  </div>
+</section>
+
+<!-- ═══════════════ ARCHITECTURE ═══════════════ -->
+<section class="section section--dark" id="architecture">
+  <div class="container">
+    <div class="section__head">
+      <span class="eyebrow">Como funciona por dentro</span>
+      <h2 class="section__title">Pipeline de coleta e armazenamento</h2>
+    </div>
+    <div class="pipeline-diagram" id="pipeline-diagram"></div>
+
+    <div class="tech-grid" id="tech-grid"></div>
+  </div>
+</section>
+
+<!-- ═══════════════ LOG DETAIL MODAL ═══════════════ -->
+<div class="modal hidden" id="log-modal">
+  <div class="modal__backdrop" onclick="closeLogModal()"></div>
+  <div class="modal__box">
+    <button class="modal__close" onclick="closeLogModal()">✕</button>
+    <h3 class="modal__title">Detalhe do Log</h3>
+    <pre class="modal__json" id="modal-json"></pre>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__logo"><span class="nav__pulse"></span> Pulsegrid</div>
+    <p class="footer__note">Demonstração com dados simulados. Nenhum servidor real é monitorado nesta página.</p>
+    <p class="footer__copy">© 2025 Pulsegrid — projeto conceitual de observabilidade</p>
+  </div>
+</footer>
+
+<script>
+// ════════════════════════════════════════════════════
+//  PULSEGRID — data.js
+//  Dados simulados de observabilidade
+// ════════════════════════════════════════════════════
+
+const SERVICES = [
+  { id: "api-gateway", name: "api-gateway", baseRps: 420, baseLatency: 45, errorRate: 0.002, status: "ok" },
+  { id: "auth-service", name: "auth-service", baseRps: 180, baseLatency: 62, errorRate: 0.004, status: "ok" },
+  { id: "payments", name: "payments-service", baseRps: 95, baseLatency: 120, errorRate: 0.011, status: "warn" },
+  { id: "orders", name: "orders-service", baseRps: 210, baseLatency: 80, errorRate: 0.003, status: "ok" },
+  { id: "notifications", name: "notifications-worker", baseRps: 60, baseLatency: 35, errorRate: 0.001, status: "ok" },
+  { id: "search", name: "search-index", baseRps: 150, baseLatency: 95, errorRate: 0.006, status: "ok" },
+  { id: "db-primary", name: "postgres-primary", baseRps: 680, baseLatency: 12, errorRate: 0.0005, status: "ok" },
+  { id: "cache", name: "redis-cache", baseRps: 1200, baseLatency: 2, errorRate: 0.0001, status: "ok" },
+];
+
+const LOG_LEVELS = ["INFO", "INFO", "INFO", "INFO", "WARN", "INFO", "ERROR", "INFO"]; // weighted toward INFO
+
+const LOG_TEMPLATES = {
+  INFO: [
+    "Request handled successfully",
+    "Cache hit for key user:session:{id}",
+    "Connection pool: {n} active, {m} idle",
+    "Health check passed",
+    "Background job completed in {ms}ms",
+    "User authenticated successfully",
+    "Webhook delivered to endpoint",
+    "Scheduled task executed",
+  ],
+  WARN: [
+    "Response time exceeded 500ms threshold",
+    "Connection pool nearing capacity ({n}/{max})",
+    "Retry attempt {n} for downstream call",
+    "Cache miss rate above expected baseline",
+    "Rate limit approaching for client {id}",
+    "Deprecated endpoint called",
+  ],
+  ERROR: [
+    "Failed to connect to downstream service",
+    "Timeout waiting for database response",
+    "Unhandled exception in request handler",
+    "Payment provider returned 503",
+    "Validation failed for incoming payload",
+    "Circuit breaker opened for service call",
+  ],
+};
+
+const TRACE_PREFIXES = ["a3f2", "8c91", "f04e", "2b77", "d910", "6e4a", "c283", "915f"];
+
+function randomTraceId() {
+  const p = TRACE_PREFIXES[Math.floor(Math.random() * TRACE_PREFIXES.length)];
+  return p + Math.random().toString(16).slice(2, 10);
+}
+
+function fillTemplate(template) {
+  return template
+    .replace("{id}", Math.floor(Math.random() * 9000 + 1000))
+    .replace("{n}", Math.floor(Math.random() * 40 + 5))
+    .replace("{m}", Math.floor(Math.random() * 10 + 1))
+    .replace("{max}", "50")
+    .replace("{ms}", Math.floor(Math.random() * 800 + 50));
+}
+
+function generateLogEntry() {
+  const service = SERVICES[Math.floor(Math.random() * SERVICES.length)];
+  const level = LOG_LEVELS[Math.floor(Math.random() * LOG_LEVELS.length)];
+  const template = LOG_TEMPLATES[level][Math.floor(Math.random() * LOG_TEMPLATES[level].length)];
+  const message = fillTemplate(template);
+  const now = new Date();
+
+  return {
+    timestamp: now.toISOString(),
+    timeDisplay: now.toTimeString().slice(0, 8),
+    level,
+    service: service.name,
+    serviceId: service.id,
+    message,
+    traceId: randomTraceId(),
+    durationMs: Math.floor(Math.random() * 300 + 5),
+    statusCode: level === "ERROR" ? [500, 502, 503, 504][Math.floor(Math.random() * 4)] : level === "WARN" ? 200 : [200, 201, 204][Math.floor(Math.random() * 3)],
+    host: `ip-10-0-${Math.floor(Math.random() * 4) + 1}-${Math.floor(Math.random() * 250 + 1)}`,
+  };
+}
+
+const ALERTS = [
+  { severity: "warn", title: "payments-service: latência p99 acima de 400ms", meta: "Disparado há 12 min · ainda ativo" },
+  { severity: "warn", title: "search-index: taxa de cache miss subiu 18%", meta: "Disparado há 34 min · ainda ativo" },
+  { severity: "crit", title: "auth-service: 3 timeouts consecutivos para postgres-primary", meta: "Resolvido há 2 min · duração: 4 min" },
+  { severity: "info", title: "orders-service: deploy concluído (v2.14.1)", meta: "há 1h 12min" },
+];
+
+const ARCHITECTURE_PIPELINE = [
+  { stage: "Coleta", icon: "📡", desc: "Agentes em cada serviço capturam logs, métricas e traces" },
+  { stage: "Ingestão", icon: "🚪", desc: "Gateway recebe e valida o payload, aplica buffering" },
+  { stage: "Processamento", icon: "⚙️", desc: "Parsing estruturado, enriquecimento, agregação de métricas" },
+  { stage: "Armazenamento", icon: "🗄️", desc: "Séries temporais e logs indexados para consulta rápida" },
+  { stage: "Visualização", icon: "📊", desc: "Dashboards, alertas e busca em tempo real" },
+];
+
+const TECH_STACK = [
+  { layer: "Coleta", name: "OpenTelemetry / Fluent Bit" },
+  { layer: "Streaming", name: "Kafka / Redis Streams" },
+  { layer: "Métricas (TSDB)", name: "Prometheus / VictoriaMetrics" },
+  { layer: "Logs (índice)", name: "Elasticsearch / Loki" },
+  { layer: "Visualização", name: "Grafana-style dashboards" },
+  { layer: "Alertas", name: "Alertmanager / PagerDuty" },
+  { layer: "API", name: "Node.js + Express" },
+  { layer: "Armazenamento frio", name: "S3 / Object Storage" },
+];
+// ════════════════════════════════════════════════════
+//  PULSEGRID — log-generator.js
+//  Gerador de logs e séries temporais em tempo real
+// ════════════════════════════════════════════════════
+
+const LogGenerator = {
+  allLogs: [],
+  maxStored: 200,
+  listeners: [],
+
+  start(intervalMs) {
+    this.tick();
+    this.intervalId = setInterval(() => this.tick(), intervalMs || 1100);
+  },
+
+  stop() {
+    if (this.intervalId) clearInterval(this.intervalId);
+  },
+
+  tick() {
+    const entry = generateLogEntry();
+    this.allLogs.unshift(entry);
+    if (this.allLogs.length > this.maxStored) {
+      this.allLogs.pop();
+    }
+    this.listeners.forEach(fn => fn(entry));
+  },
+
+  onNewLog(fn) {
+    this.listeners.push(fn);
+  },
+
+  getFiltered(levelFilter, searchTerm) {
+    return this.allLogs.filter(log => {
+      if (levelFilter && levelFilter !== "ALL" && log.level !== levelFilter) return false;
+      if (searchTerm) {
+        const term = searchTerm.toLowerCase();
+        const haystack = (log.service + " " + log.message + " " + log.traceId).toLowerCase();
+        if (!haystack.includes(term)) return false;
+      }
+      return true;
+    });
+  },
+};
+
+// ════════════════════════════════════════════════════
+//  TIME SERIES SIMULATOR (for charts)
+// ════════════════════════════════════════════════════
+
+const TimeSeries = {
+  generate(points, baseValue, volatility, trendBias) {
+    const result = [];
+    let current = baseValue;
+    for (let i = 0; i < points; i++) {
+      const noise = (Math.random() - 0.5) * volatility;
+      const trend = (trendBias || 0) * (i / points);
+      current = Math.max(0, baseValue + noise + trend * baseValue);
+      result.push(Math.round(current * 100) / 100);
+    }
+    return result;
+  },
+
+  rollingUpdate(series, baseValue, volatility) {
+    const last = series[series.length - 1];
+    const noise = (Math.random() - 0.5) * volatility;
+    const next = Math.max(0, last * 0.7 + baseValue * 0.3 + noise);
+    const updated = series.slice(1);
+    updated.push(Math.round(next * 100) / 100);
+    return updated;
+  },
+};
+// ════════════════════════════════════════════════════
+//  PULSEGRID — charts.js
+//  Renderização de gráficos SVG
+// ════════════════════════════════════════════════════
+
+const PulseCharts = {
+  renderLineChart(containerId, series, opts) {
+    opts = opts || {};
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const w = opts.width || 520, h = opts.height || 180;
+    const padding = 24;
+    const color = opts.color || "var(--amber)";
+    const maxVal = Math.max(...series) * 1.15 || 1;
+    const minVal = 0;
+    const stepX = (w - padding * 2) / (series.length - 1);
+
+    const toY = (val) => h - padding - ((val - minVal) / (maxVal - minVal)) * (h - padding * 1.5);
+    const toX = (i) => padding + i * stepX;
+
+    const points = series.map((v, i) => `${toX(i)},${toY(v)}`).join(" ");
+    const areaPoints = `${toX(0)},${h - padding} ${points} ${toX(series.length - 1)},${h - padding}`;
+
+    const gridLines = [0.33, 0.66, 1].map(f => {
+      const y = h - padding - f * (h - padding * 1.5);
+      return `<line x1="${padding}" y1="${y}" x2="${w - padding}" y2="${y}" stroke="rgba(255,255,255,.04)" stroke-width="1"/>`;
+    }).join("");
+
+    const lastVal = series[series.length - 1];
+
+    container.innerHTML = `
+      <svg width="100%" height="${h}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <linearGradient id="grad-${containerId}" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="${color}" stop-opacity="0.25"/>
+            <stop offset="100%" stop-color="${color}" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        ${gridLines}
+        <polygon points="${areaPoints}" fill="url(#grad-${containerId})"/>
+        <polyline points="${points}" fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+        <circle cx="${toX(series.length - 1)}" cy="${toY(lastVal)}" r="3.5" fill="${color}"/>
+      </svg>
+    `;
+  },
+
+  renderMultiLineChart(containerId, seriesMap, opts) {
+    opts = opts || {};
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const w = opts.width || 520, h = opts.height || 180;
+    const padding = 24;
+    const allValues = Object.values(seriesMap).flat();
+    const maxVal = Math.max(...allValues) * 1.15 || 1;
+    const keys = Object.keys(seriesMap);
+    const len = seriesMap[keys[0]].length;
+    const stepX = (w - padding * 2) / (len - 1);
+
+    const toY = (val) => h - padding - (val / maxVal) * (h - padding * 1.5);
+    const toX = (i) => padding + i * stepX;
+
+    const colors = opts.colors || ["var(--teal)", "var(--amber)", "var(--rose)"];
+
+    const lines = keys.map((key, idx) => {
+      const points = seriesMap[key].map((v, i) => `${toX(i)},${toY(v)}`).join(" ");
+      return `<polyline points="${points}" fill="none" stroke="${colors[idx % colors.length]}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+    }).join("");
+
+    const gridLines = [0.33, 0.66, 1].map(f => {
+      const y = h - padding - f * (h - padding * 1.5);
+      return `<line x1="${padding}" y1="${y}" x2="${w - padding}" y2="${y}" stroke="rgba(255,255,255,.04)" stroke-width="1"/>`;
+    }).join("");
+
+    const legend = keys.map((key, idx) => `
+      <span class="chart-legend-item"><span class="legend-dot" style="background:${colors[idx % colors.length]}"></span>${key}</span>
+    `).join("");
+
+    container.innerHTML = `
+      <svg width="100%" height="${h}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid meet">
+        ${gridLines}
+        ${lines}
+      </svg>
+      <div class="chart-legend-row">${legend}</div>
+    `;
+  },
+
+  renderServiceMap(containerId, services) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = services.map(svc => `
+      <div class="svc-node" data-id="${svc.id}">
+        <span class="svc-node__pulse status-dot--${svc.status === 'ok' ? 'ok' : svc.status === 'warn' ? 'warn' : 'crit'}"></span>
+        <span class="svc-node__name">${svc.name}</span>
+        <span class="svc-node__rps" data-rps="${svc.id}">${svc.currentRps} req/s</span>
+      </div>
+    `).join("");
+  },
+
+  updateServiceMapRps(services) {
+    services.forEach(svc => {
+      const el = document.querySelector(`[data-rps="${svc.id}"]`);
+      if (el) el.textContent = svc.currentRps + " req/s";
+    });
+  },
+};
+// ════════════════════════════════════════════════════
+//  PULSEGRID — app.js
+//  Orquestração principal
+// ════════════════════════════════════════════════════
+
+const AppState = {
+  rpmSeries: [],
+  latencySeries: { p50: [], p95: [], p99: [] },
+  errorSeries: [],
+  cpuSeries: [],
+  memSeries: [],
+  servicesWithRps: [],
+  currentLevelFilter: "ALL",
+  currentSearchTerm: "",
+  selectedServiceId: SERVICES[0].id,
+  detailThroughput: {},
+  detailLatency: {},
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  initStatusStrip();
+  initKpiRow();
+  initHeroTerminal();
+  initDashboardCharts();
+  initServiceMap();
+  initLogConsole();
+  initServiceTabs();
+  initMetricDetail();
+  initAlerts();
+  initArchitecture();
+  initCtaButtons();
+  initScrollReveal();
+
+  LogGenerator.start(1200);
+  setInterval(tickLiveData, 2000);
+});
+
+// ════════════════════════════════════════════════════
+//  STATUS STRIP
+// ════════════════════════════════════════════════════
+function initStatusStrip() {
+  const el = document.getElementById("status-strip-content");
+  el.innerHTML = SERVICES.map(s => `
+    <span class="status-pill">
+      <span class="status-dot status-dot--${s.status}"></span>
+      ${s.name} <strong>${s.status === "ok" ? "operacional" : s.status === "warn" ? "degradado" : "crítico"}</strong>
+    </span>
+  `).join("");
+}
+
+// ════════════════════════════════════════════════════
+//  KPI ROW
+// ════════════════════════════════════════════════════
+function initKpiRow() {
+  const el = document.getElementById("kpi-row");
+  const totalRps = SERVICES.reduce((s, svc) => s + svc.baseRps, 0);
+  const avgLatency = Math.round(SERVICES.reduce((s, svc) => s + svc.baseLatency, 0) / SERVICES.length);
+  const avgError = (SERVICES.reduce((s, svc) => s + svc.errorRate, 0) / SERVICES.length * 100).toFixed(2);
+
+  el.innerHTML = `
+    <div class="kpi-card">
+      <div class="kpi-card__value" id="kpi-rps">${totalRps.toLocaleString("pt-BR")}</div>
+      <div class="kpi-card__label">Requisições / segundo</div>
+      <div class="kpi-card__delta kpi-card__delta--up">↑ 4.2% vs hora anterior</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-card__value" id="kpi-latency">${avgLatency}ms</div>
+      <div class="kpi-card__label">Latência média</div>
+      <div class="kpi-card__delta kpi-card__delta--up">↓ 1.8% vs hora anterior</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-card__value" id="kpi-error">${avgError}%</div>
+      <div class="kpi-card__label">Taxa de erro</div>
+      <div class="kpi-card__delta kpi-card__delta--down">↑ 0.3pp vs hora anterior</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-card__value">99.94%</div>
+      <div class="kpi-card__label">Uptime (30 dias)</div>
+      <div class="kpi-card__delta kpi-card__delta--up">dentro do SLO</div>
+    </div>
+  `;
+}
+
+// ════════════════════════════════════════════════════
+//  HERO TERMINAL (auto-streaming logs)
+// ════════════════════════════════════════════════════
+function initHeroTerminal() {
+  const body = document.getElementById("hero-log-stream");
+  const maxLines = 11;
+
+  function renderLine(entry) {
+    const line = document.createElement("div");
+    line.className = "tlog";
+    line.innerHTML = `
+      <span class="tlog__time">${entry.timeDisplay}</span>
+      <span class="tlog__level tlog__level--${entry.level}">${entry.level}</span>
+      <span class="tlog__svc">${entry.service}</span>
+      <span class="tlog__msg">${entry.message}</span>
+    `;
+    body.appendChild(line);
+    while (body.children.length > maxLines) {
+      body.removeChild(body.firstChild);
+    }
+    body.scrollTop = body.scrollHeight;
+  }
+
+  // Seed with a few lines immediately
+  for (let i = 0; i < 6; i++) {
+    renderLine(generateLogEntry());
+  }
+
+  LogGenerator.onNewLog(renderLine);
+}
+
+// ════════════════════════════════════════════════════
+//  DASHBOARD CHARTS (RPM, latency, error, resources)
+// ════════════════════════════════════════════════════
+function initDashboardCharts() {
+  AppState.rpmSeries = TimeSeries.generate(60, 1800, 220, 0.05);
+  AppState.latencySeries.p50 = TimeSeries.generate(30, 45, 8, 0);
+  AppState.latencySeries.p95 = TimeSeries.generate(30, 120, 20, 0);
+  AppState.latencySeries.p99 = TimeSeries.generate(30, 220, 35, 0.02);
+  AppState.errorSeries = TimeSeries.generate(30, 0.8, 0.6, 0);
+  AppState.cpuSeries = TimeSeries.generate(30, 52, 10, 0);
+  AppState.memSeries = TimeSeries.generate(30, 68, 6, 0.01);
+
+  PulseCharts.renderLineChart("rpm-chart", AppState.rpmSeries, { color: "var(--amber)", height: 220 });
+  PulseCharts.renderMultiLineChart("latency-chart", {
+    p50: AppState.latencySeries.p50,
+    p95: AppState.latencySeries.p95,
+    p99: AppState.latencySeries.p99,
+  }, { colors: ["var(--teal)", "var(--amber)", "var(--rose)"], height: 160 });
+  PulseCharts.renderLineChart("error-chart", AppState.errorSeries, { color: "var(--rose)", height: 160 });
+  PulseCharts.renderMultiLineChart("resource-chart", {
+    CPU: AppState.cpuSeries,
+    Memória: AppState.memSeries,
+  }, { colors: ["var(--blue)", "var(--teal)"], height: 160 });
+}
+
+// ════════════════════════════════════════════════════
+//  SERVICE MAP
+// ════════════════════════════════════════════════════
+function initServiceMap() {
+  AppState.servicesWithRps = SERVICES.map(s => ({ ...s, currentRps: s.baseRps }));
+  PulseCharts.renderServiceMap("service-map", AppState.servicesWithRps);
+}
+
+// ════════════════════════════════════════════════════
+//  LIVE DATA TICK (updates charts + service map periodically)
+// ════════════════════════════════════════════════════
+function tickLiveData() {
+  AppState.rpmSeries = TimeSeries.rollingUpdate(AppState.rpmSeries, 1800, 220);
+  PulseCharts.renderLineChart("rpm-chart", AppState.rpmSeries, { color: "var(--amber)", height: 220 });
+
+  const totalRps = Math.round(AppState.rpmSeries[AppState.rpmSeries.length - 1]);
+  const kpiRpsEl = document.getElementById("kpi-rps");
+  if (kpiRpsEl) kpiRpsEl.textContent = totalRps.toLocaleString("pt-BR");
+
+  AppState.servicesWithRps.forEach(s => {
+    const variance = (Math.random() - 0.5) * s.baseRps * 0.25;
+    s.currentRps = Math.max(1, Math.round(s.baseRps + variance));
+  });
+  PulseCharts.updateServiceMapRps(AppState.servicesWithRps);
+}
+
+// ════════════════════════════════════════════════════
+//  LOG CONSOLE (filterable, searchable, live)
+// ════════════════════════════════════════════════════
+function initLogConsole() {
+  const filtersEl = document.getElementById("log-filters");
+  const levels = ["ALL", "INFO", "WARN", "ERROR"];
+  filtersEl.innerHTML = levels.map(lvl => `
+    <button class="log-filter-chip ${lvl === 'ALL' ? 'active' : ''}" data-level="${lvl}">${lvl}</button>
+  `).join("");
+
+  filtersEl.querySelectorAll(".log-filter-chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      filtersEl.querySelectorAll(".log-filter-chip").forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+      AppState.currentLevelFilter = chip.dataset.level;
+      renderLogConsole();
+    });
+  });
+
+  const searchInput = document.getElementById("log-search-input");
+  searchInput.addEventListener("input", () => {
+    AppState.currentSearchTerm = searchInput.value.trim();
+    renderLogConsole();
+  });
+
+  // Seed with some initial logs so the console isn't empty on load
+  for (let i = 0; i < 25; i++) {
+    LogGenerator.allLogs.push(generateLogEntry());
+  }
+  renderLogConsole();
+
+  LogGenerator.onNewLog(() => renderLogConsole());
+}
+
+function renderLogConsole() {
+  const body = document.getElementById("log-console-body");
+  const filtered = LogGenerator.getFiltered(AppState.currentLevelFilter, AppState.currentSearchTerm).slice(0, 60);
+
+  if (filtered.length === 0) {
+    body.innerHTML = `<div style="padding:2rem;text-align:center;color:var(--text-faint);font-family:var(--mono);font-size:.82rem">Nenhum log corresponde aos filtros atuais.</div>`;
+    return;
+  }
+
+  body.innerHTML = filtered.map((log, idx) => `
+    <div class="log-row" data-idx="${idx}">
+      <span class="log-row__time">${log.timeDisplay}</span>
+      <span class="log-row__level log-row__level--${log.level}">${log.level}</span>
+      <span class="log-row__svc">${log.service}</span>
+      <span class="log-row__msg">${escapeHtml(log.message)} <span style="color:var(--text-faint)">· ${log.traceId}</span></span>
+    </div>
+  `).join("");
+
+  body.querySelectorAll(".log-row").forEach((row, idx) => {
+    row.addEventListener("click", () => openLogModal(filtered[idx]));
+  });
+}
+
+function escapeHtml(str) {
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function openLogModal(log) {
+  const modal = document.getElementById("log-modal");
+  const jsonEl = document.getElementById("modal-json");
+  jsonEl.textContent = JSON.stringify(log, null, 2);
+  modal.classList.remove("hidden");
+}
+
+function closeLogModal() {
+  document.getElementById("log-modal").classList.add("hidden");
+}
+
+// ════════════════════════════════════════════════════
+//  SERVICE TABS + METRIC DETAIL
+// ════════════════════════════════════════════════════
+function initServiceTabs() {
+  const tabsEl = document.getElementById("service-tabs");
+  tabsEl.innerHTML = SERVICES.map(s => `
+    <button class="svc-tab ${s.id === AppState.selectedServiceId ? 'active' : ''}" data-id="${s.id}">
+      <span class="status-dot status-dot--${s.status}"></span>${s.name}
+    </button>
+  `).join("");
+
+  tabsEl.querySelectorAll(".svc-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      tabsEl.querySelectorAll(".svc-tab").forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      AppState.selectedServiceId = tab.dataset.id;
+      renderMetricDetail();
+    });
+  });
+}
+
+function initMetricDetail() {
+  SERVICES.forEach(s => {
+    AppState.detailThroughput[s.id] = TimeSeries.generate(40, s.baseRps, s.baseRps * 0.15, 0);
+    AppState.detailLatency[s.id] = TimeSeries.generate(40, s.baseLatency, s.baseLatency * 0.2, 0);
+  });
+  renderMetricDetail();
+}
+
+function renderMetricDetail() {
+  const id = AppState.selectedServiceId;
+  PulseCharts.renderLineChart("detail-throughput", AppState.detailThroughput[id], { color: "var(--teal)", height: 180 });
+  PulseCharts.renderLineChart("detail-latency", AppState.detailLatency[id], { color: "var(--amber)", height: 180 });
+}
+
+// ════════════════════════════════════════════════════
+//  ALERTS
+// ════════════════════════════════════════════════════
+function initAlerts() {
+  const el = document.getElementById("alert-list");
+  const iconMap = { warn: "⚠️", crit: "🔴", info: "ℹ️" };
+  el.innerHTML = ALERTS.map(a => `
+    <div class="alert-row alert-row--${a.severity}">
+      <span class="alert-row__icon">${iconMap[a.severity]}</span>
+      <div class="alert-row__body">
+        <div class="alert-row__title">${a.title}</div>
+        <div class="alert-row__meta">${a.meta}</div>
+      </div>
+    </div>
+  `).join("");
+}
+
+// ════════════════════════════════════════════════════
+//  ARCHITECTURE
+// ════════════════════════════════════════════════════
+function initArchitecture() {
+  const pipelineEl = document.getElementById("pipeline-diagram");
+  pipelineEl.innerHTML = `
+    <div class="arch-flow">
+      ${ARCHITECTURE_PIPELINE.map((stage, i) => `
+        <div class="arch-node">
+          <span class="arch-node__icon">${stage.icon}</span>
+          <span class="arch-node__layer">${stage.stage}</span>
+          <span class="arch-node__desc">${stage.desc}</span>
+        </div>
+        ${i < ARCHITECTURE_PIPELINE.length - 1 ? '<div class="arch-arrow">↓</div>' : ''}
+      `).join("")}
+    </div>
+  `;
+
+  const techEl = document.getElementById("tech-grid");
+  techEl.innerHTML = TECH_STACK.map(t => `
+    <div class="tech-item">
+      <span class="tech-item__layer">${t.layer}</span>
+      <span class="tech-item__name">${t.name}</span>
+    </div>
+  `).join("");
+}
+
+// ════════════════════════════════════════════════════
+//  CTA BUTTONS
+// ════════════════════════════════════════════════════
+function initCtaButtons() {
+  document.getElementById("hero-cta")?.addEventListener("click", () => {
+    document.getElementById("dashboard").scrollIntoView({ behavior: "smooth" });
+  });
+  document.getElementById("hero-cta-2")?.addEventListener("click", () => {
+    document.getElementById("logs").scrollIntoView({ behavior: "smooth" });
+  });
+}
+
+// ════════════════════════════════════════════════════
+//  SCROLL REVEAL
+// ════════════════════════════════════════════════════
+function initScrollReveal() {
+  const sections = document.querySelectorAll(".section");
+  sections.forEach(s => {
+    s.style.opacity = "0";
+    s.style.transform = "translateY(14px)";
+    s.style.transition = "opacity .5s ease, transform .5s ease";
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = "1";
+        entry.target.style.transform = "translateY(0)";
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  sections.forEach(s => observer.observe(s));
+}
+</script>
+</body>
+</html>
